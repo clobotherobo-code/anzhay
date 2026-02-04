@@ -1,0 +1,22 @@
+# Dependencies
+node_modules
+
+# Build
+dist
+
+# Env (don't commit secrets)
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor
+.DS_Store
+
+# Solana / Anchor program
+solana-program/target/
+solana-program/**/*-keypair.json
+solana-program/.anchor

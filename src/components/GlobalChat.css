@@ -1,0 +1,126 @@
+.global-chat {
+  width: 420px;
+  min-height: 380px;
+  max-height: 85vh;
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #fff #404040 #404040 #fff;
+  box-shadow: 2px 2px 0 #808080;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.global-chat-titlebar {
+  height: 22px;
+  padding: 2px 4px 2px 6px;
+  background: linear-gradient(90deg, #000080, #1084d0);
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.global-chat-titlebar-draggable {
+  cursor: move;
+}
+
+.global-chat-title {
+  flex: 1;
+}
+
+.global-chat-titlebar-buttons .win95-btn-close {
+  width: 18px;
+  height: 16px;
+  padding: 0;
+  border: 1px solid;
+  border-color: #fff #404040 #404040 #fff;
+  background: #c0c0c0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.global-chat-titlebar-buttons .win95-btn-close:hover {
+  background: #ff0000;
+}
+
+.global-chat-titlebar-buttons .win95-btn-icon-close::before,
+.global-chat-titlebar-buttons .win95-btn-icon-close::after {
+  background: #000;
+}
+
+.global-chat-titlebar-buttons .win95-btn-close:hover .win95-btn-icon-close::before,
+.global-chat-titlebar-buttons .win95-btn-close:hover .win95-btn-icon-close::after {
+  background: #fff;
+}
+
+.global-chat-body {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  gap: 10px;
+}
+
+.global-chat-messages {
+  flex: 1;
+  min-height: 200px;
+  overflow-y: auto;
+  background: #fff;
+  border: 2px solid;
+  border-color: #404040 #fff #fff #404040;
+  padding: 8px;
+  font-size: 13px;
+}
+
+.global-chat-msg {
+  margin-bottom: 6px;
+  word-break: break-word;
+}
+
+.global-chat-msg-meta {
+  color: #008000;
+  font-weight: bold;
+  margin-right: 6px;
+}
+
+.global-chat-msg-text {
+  color: #000;
+}
+
+.global-chat-form {
+  display: flex;
+  gap: 6px;
+}
+
+.global-chat-input {
+  flex: 1;
+  padding: 6px 8px;
+  font-size: 13px;
+  border: 2px solid;
+  border-color: #404040 #fff #fff #404040;
+  background: #fff;
+}
+
+.global-chat-send {
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: bold;
+  background: linear-gradient(180deg, #c0c0c0, #808080);
+  border: 2px solid;
+  border-color: #fff #404040 #404040 #fff;
+  cursor: pointer;
+}
+
+.global-chat-send:hover {
+  background: linear-gradient(180deg, #d4d4d4, #909090);
+}
+
+.global-chat-send:active {
+  border-color: #404040 #fff #fff #404040;
+}

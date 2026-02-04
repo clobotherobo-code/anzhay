@@ -1,0 +1,24 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Open Sans', 'MS Sans Serif', 'Tahoma', 'Arial', sans-serif;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}

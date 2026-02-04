@@ -1,0 +1,50 @@
+{
+  "version": "0.1.0",
+  "name": "anzhay_flip",
+  "instructions": [
+    {
+      "name": "create_room",
+      "accounts": [
+        { "name": "creator", "isMut": true, "isSigner": true },
+        { "name": "room", "isMut": true, "isSigner": false },
+        { "name": "systemProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": [{ "name": "amount", "type": "u64" }]
+    },
+    {
+      "name": "join_room",
+      "accounts": [
+        { "name": "challenger", "isMut": true, "isSigner": true },
+        { "name": "room", "isMut": true, "isSigner": false },
+        { "name": "systemProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": [{ "name": "choice", "type": "u8" }]
+    },
+    {
+      "name": "resolve",
+      "accounts": [
+        { "name": "authority", "isMut": false, "isSigner": true },
+        { "name": "room", "isMut": true, "isSigner": false },
+        { "name": "winner", "isMut": true, "isSigner": false },
+        { "name": "systemProgram", "isMut": false, "isSigner": false }
+      ],
+      "args": [{ "name": "result", "type": "u8" }]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Room",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "creator", "type": "publicKey" },
+          { "name": "amount", "type": "u64" },
+          { "name": "challenger", "type": { "option": "publicKey" } },
+          { "name": "challenger_choice", "type": { "option": "u8" } },
+          { "name": "result", "type": { "option": "u8" } },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    }
+  ]
+}
