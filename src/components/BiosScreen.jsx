@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react'
 import './BiosScreen.css'
 
 const LOGO_TEXT = 'ANZHAY OS'
-const TYPEWRITER_MS = 120
+const BLOCK_COUNT = 24
+const BLOCK_FILL_MS = 120
+const TYPEWRITER_MS = 140
 
 const BIOS_LINES = [
   { text: 'Phoenix ROM BIOS PLUS Version 1.10 A09', delay: 0 },
@@ -39,7 +41,8 @@ const BIOS_LINES = [
 export default function BiosScreen({ onBootComplete }) {
   const [visibleLines, setVisibleLines] = useState([])
   const [cursorVisible, setCursorVisible] = useState(true)
-  const [phase, setPhase] = useState('bios') // 'bios' | 'logo' | 'done'
+  const [phase, setPhase] = useState('bios') // 'bios' | 'loading' | 'click' (wait for user)
+  const [filledBlocks, setFilledBlocks] = useState(0)
   const [typewriterLen, setTypewriterLen] = useState(0)
 
   useEffect(() => {
@@ -52,49 +55,62 @@ export default function BiosScreen({ onBootComplete }) {
   }, [])
 
   useEffect(() => {
-    const doneTimer = setTimeout(() => {
-      setPhase('logo')
-    }, 8500)
+    const doneTimer = setTimeout(() => setPhase('loading'), 8500)
     return () => clearTimeout(doneTimer)
   }, [])
 
   useEffect(() => {
-    if (phase !== 'logo') return
-    setTypewriterLen(0)
-  }, [phase])
+    if (phase !== 'loading') return
+    if (filledBlocks >= BLOCK_COUNT) {
+      setPhase('click')
+      return
+    }
+    const t = setTimeout(() => setFilledBlocks((n) => n + 1), BLOCK_FILL_MS)
+    return () => clearTimeout(t)
+  }, [phase, filledBlocks])
 
   useEffect(() => {
-    if (phase !== 'logo' || typewriterLen >= LOGO_TEXT.length) return
+    if (phase !== 'loading' && phase !== 'click') return
+    if (typewriterLen >= LOGO_TEXT.length) return
     const t = setTimeout(() => setTypewriterLen((n) => n + 1), TYPEWRITER_MS)
     return () => clearTimeout(t)
   }, [phase, typewriterLen])
-
-  useEffect(() => {
-    if (phase !== 'logo') return
-    const fullDuration = LOGO_TEXT.length * TYPEWRITER_MS + 800
-    const timer = setTimeout(() => {
-      setPhase('done')
-      onBootComplete?.()
-    }, fullDuration + 2500)
-    return () => clearTimeout(timer)
-  }, [phase, onBootComplete])
 
   useEffect(() => {
     const id = setInterval(() => setCursorVisible((v) => !v), 530)
     return () => clearInterval(id)
   }, [])
 
-  if (phase === 'logo') {
+  const handleClickToContinue = () => {
+    if (phase === 'click') onBootComplete?.()
+  }
+
+  if (phase === 'loading' || phase === 'click') {
     return (
-      <div className="bios-screen bios-logo">
+      <div
+        className={`bios-screen bios-logo ${phase === 'click' ? 'bios-click-phase' : ''}`}
+        onClick={phase === 'click' ? handleClickToContinue : undefined}
+        role={phase === 'click' ? 'button' : undefined}
+        tabIndex={phase === 'click' ? 0 : undefined}
+        onKeyDown={(e) => phase === 'click' && (e.key === 'Enter' || e.key === ' ') && handleClickToContinue()}
+        aria-label={phase === 'click' ? 'Click to continue' : undefined}
+      >
         <div className="win95-logo-boot">
           <p className="win95-logo-text">
             {LOGO_TEXT.slice(0, typewriterLen)}
-            <span className="win95-logo-cursor">{cursorVisible ? '|' : ''}</span>
+            <span className="win95-logo-cursor">{typewriterLen < LOGO_TEXT.length && cursorVisible ? '|' : ''}</span>
           </p>
-          <div className="win95-logo-progress">
-            <div className="win95-logo-progress-bar" />
+          <div className="win95-retro-blocks">
+            {Array.from({ length: BLOCK_COUNT }, (_, i) => (
+              <div
+                key={i}
+                className={`win95-retro-block ${i < filledBlocks ? 'filled' : ''}`}
+              />
+            ))}
           </div>
+          {phase === 'click' && (
+            <p className="win95-click-continue">Click to continue</p>
+          )}
         </div>
       </div>
     )

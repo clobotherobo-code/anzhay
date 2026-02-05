@@ -169,7 +169,6 @@ export default function Windows95Desktop() {
   const [isDraggingLeaderboard, setIsDraggingLeaderboard] = useState(false)
   const [communityWindowPos, setCommunityWindowPos] = useState({ x: 160, y: 50 })
   const [isDraggingCommunity, setIsDraggingCommunity] = useState(false)
-  const tadaPlayed = useRef(false)
   const dragStart = useRef({ clientX: 0, clientY: 0, left: 0, top: 0 })
   const previewDragStart = useRef({ clientX: 0, clientY: 0, left: 0, top: 0 })
   const pvpDragStart = useRef({ clientX: 0, clientY: 0, left: 0, top: 0 })
@@ -187,19 +186,15 @@ export default function Windows95Desktop() {
 
   const playClick = () => {
     if (bootVisible) return
-    // Play tada on first user click (browser allows audio after gesture); then click sound
-    if (!tadaPlayed.current) {
-      tadaPlayed.current = true
-      const t = new Audio(tadaSnd)
-      t.volume = 0.6
-      t.play().catch(() => {})
-    }
     const a = new Audio(clickSnd)
     a.volume = 0.5
     a.play().catch(() => {})
   }
 
   const handleBootComplete = () => {
+    const t = new Audio(tadaSnd)
+    t.volume = 0.6
+    t.play().catch(() => {})
     setBootVisible('fadeout')
     setTimeout(() => setBootVisible(false), 600)
   }
