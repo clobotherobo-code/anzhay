@@ -73,7 +73,7 @@ const MEME_FILES = [
 ]
 
 const COMMUNITY_LINKS = [
-  { label: 'X (Twitter)', url: 'https://x.com/anzhay_os' },
+  { label: 'X Community', url: 'https://x.com/i/communities/2019405481496965334' },
   { label: 'Discord', url: 'https://discord.gg/' },
   { label: 'Telegram', url: 'https://t.me/' },
 ]
