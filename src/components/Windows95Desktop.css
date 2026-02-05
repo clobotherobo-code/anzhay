@@ -819,47 +819,6 @@
   background: #e0e8ff;
 }
 
-/* Community window */
-.win95-community-window {
-  width: 320px;
-}
-
-.win95-community-body {
-  padding: 14px;
-}
-
-.win95-community-intro {
-  margin: 0 0 10px;
-  font-size: 13px;
-  font-weight: bold;
-}
-
-.win95-community-list {
-  margin: 0 0 12px;
-  padding-left: 20px;
-  font-size: 13px;
-}
-
-.win95-community-list li {
-  margin-bottom: 6px;
-}
-
-.win95-community-link {
-  color: #0000ff;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.win95-community-link:hover {
-  color: #800080;
-}
-
-.win95-community-hint {
-  margin: 0;
-  font-size: 11px;
-  color: #666;
-}
-
 /* Preview window - folder kecil untuk gambar */
 .win95-preview-window {
   width: 280px;

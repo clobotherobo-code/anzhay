@@ -72,12 +72,6 @@ const MEME_FILES = [
   { name: 'meme9.png', src: meme9 },
 ]
 
-const COMMUNITY_LINKS = [
-  { label: 'X Community', url: 'https://x.com/i/communities/2019405481496965334' },
-  { label: 'Discord', url: 'https://discord.gg/' },
-  { label: 'Telegram', url: 'https://t.me/' },
-]
-
 const DESKTOP_ICONS = [
   { label: 'Meme', icon: 'folder', iconSrc: memeIcon, x: 16, y: 16 },
   { label: 'X', icon: 'folder', iconSrc: xIcon, x: 16, y: 96 },
@@ -143,7 +137,6 @@ export default function Windows95Desktop() {
   const [pvpWindowOpen, setPvpWindowOpen] = useState(false)
   const [globalChatWindowOpen, setGlobalChatWindowOpen] = useState(false)
   const [leaderboardWindowOpen, setLeaderboardWindowOpen] = useState(false)
-  const [communityWindowOpen, setCommunityWindowOpen] = useState(false)
   const [leaderboardData, setLeaderboardData] = useState(() => getStoredLeaderboard())
   const [nickname, setNickname] = useState('')
   const [nicknameModalOpen, setNicknameModalOpen] = useState(false)
@@ -167,14 +160,11 @@ export default function Windows95Desktop() {
   const [isDraggingGlobalChat, setIsDraggingGlobalChat] = useState(false)
   const [leaderboardWindowPos, setLeaderboardWindowPos] = useState({ x: 140, y: 70 })
   const [isDraggingLeaderboard, setIsDraggingLeaderboard] = useState(false)
-  const [communityWindowPos, setCommunityWindowPos] = useState({ x: 160, y: 50 })
-  const [isDraggingCommunity, setIsDraggingCommunity] = useState(false)
   const dragStart = useRef({ clientX: 0, clientY: 0, left: 0, top: 0 })
   const previewDragStart = useRef({ clientX: 0, clientY: 0, left: 0, top: 0 })
   const pvpDragStart = useRef({ clientX: 0, clientY: 0, left: 0, top: 0 })
   const globalChatDragStart = useRef({ clientX: 0, clientY: 0, left: 0, top: 0 })
   const leaderboardDragStart = useRef({ clientX: 0, clientY: 0, left: 0, top: 0 })
-  const communityDragStart = useRef({ clientX: 0, clientY: 0, left: 0, top: 0 })
 
   const copyContractAddress = (e) => {
     e.stopPropagation()
@@ -353,35 +343,6 @@ export default function Windows95Desktop() {
     }
   }, [isDraggingLeaderboard])
 
-  const handleCommunityTitleBarMouseDown = (e) => {
-    if (e.button !== 0) return
-    e.preventDefault()
-    communityDragStart.current = {
-      clientX: e.clientX,
-      clientY: e.clientY,
-      left: communityWindowPos.x,
-      top: communityWindowPos.y,
-    }
-    setIsDraggingCommunity(true)
-  }
-
-  useEffect(() => {
-    if (!isDraggingCommunity) return
-    const onMove = (e) => {
-      setCommunityWindowPos({
-        x: communityDragStart.current.left + (e.clientX - communityDragStart.current.clientX),
-        y: communityDragStart.current.top + (e.clientY - communityDragStart.current.clientY),
-      })
-    }
-    const onUp = () => setIsDraggingCommunity(false)
-    document.addEventListener('mousemove', onMove)
-    document.addEventListener('mouseup', onUp)
-    return () => {
-      document.removeEventListener('mousemove', onMove)
-      document.removeEventListener('mouseup', onUp)
-    }
-  }, [isDraggingCommunity])
-
   const handleDesktopItemClick = (label) => {
     const key = label.toLowerCase().replace(/\s+/g, '')
     if (key === 'meme') {
@@ -393,7 +354,7 @@ export default function Windows95Desktop() {
       return
     }
     if (key === 'community') {
-      setCommunityWindowOpen(true)
+      window.open('https://x.com/i/communities/2019405481496965334', '_blank', 'noopener,noreferrer')
       return
     }
     if (key === 'leaderboard') {
@@ -521,16 +482,6 @@ export default function Windows95Desktop() {
             Leaderboard
           </button>
         )}
-        {communityWindowOpen && (
-          <button
-            type="button"
-            className="win95-taskbar-window-btn"
-            onClick={() => setCommunityWindowOpen(false)}
-            title="Click to close"
-          >
-            Community
-          </button>
-        )}
         {memeWindowOpen && (
           <button
             type="button"
@@ -610,46 +561,6 @@ export default function Windows95Desktop() {
           </div>
         ))}
       </div>
-
-      {communityWindowOpen && (
-        <div
-          className="win95-window win95-community-window"
-          role="dialog"
-          aria-label="Community"
-          style={{
-            left: communityWindowPos.x,
-            top: communityWindowPos.y,
-            zIndex: WINDOW_Z_INDEX_FOCUSED + 2,
-          }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div
-            className="win95-window-titlebar win95-window-titlebar-draggable"
-            onMouseDown={handleCommunityTitleBarMouseDown}
-          >
-            <span className="win95-window-icon win95-icon-folder" />
-            <span className="win95-window-title">Community</span>
-            <div className="win95-window-buttons">
-              <button type="button" className="win95-btn-close" aria-label="Close" title="Close" onClick={(e) => { e.stopPropagation(); setCommunityWindowOpen(false) }}>
-                <span className="win95-btn-icon-close" />
-              </button>
-            </div>
-          </div>
-          <div className="win95-window-body win95-community-body">
-            <p className="win95-community-intro">Join the ANZHAY community:</p>
-            <ul className="win95-community-list">
-              {COMMUNITY_LINKS.map((link, i) => (
-                <li key={i}>
-                  <a href={link.url} target="_blank" rel="noopener noreferrer" className="win95-community-link">
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-            <p className="win95-community-hint">Add your Discord/Telegram links above in COMMUNITY_LINKS.</p>
-          </div>
-        </div>
-      )}
 
       {memeWindowOpen && (
         <div
