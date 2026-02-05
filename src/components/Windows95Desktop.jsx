@@ -187,18 +187,19 @@ export default function Windows95Desktop() {
 
   const playClick = () => {
     if (bootVisible) return
+    // Play tada on first user click (browser allows audio after gesture); then click sound
+    if (!tadaPlayed.current) {
+      tadaPlayed.current = true
+      const t = new Audio(tadaSnd)
+      t.volume = 0.6
+      t.play().catch(() => {})
+    }
     const a = new Audio(clickSnd)
     a.volume = 0.5
     a.play().catch(() => {})
   }
 
   const handleBootComplete = () => {
-    if (!tadaPlayed.current) {
-      tadaPlayed.current = true
-      const a = new Audio(tadaSnd)
-      a.volume = 0.6
-      a.play().catch(() => {})
-    }
     setBootVisible('fadeout')
     setTimeout(() => setBootVisible(false), 600)
   }

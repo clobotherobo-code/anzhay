@@ -11,6 +11,9 @@ anzhay_flip = "6Fg5b38qMMwUarNA1bACM8rZnW8VsJwUz757moGaHGDC"
 [programs.devnet]
 anzhay_flip = "6Fg5b38qMMwUarNA1bACM8rZnW8VsJwUz757moGaHGDC"
 
+[programs.mainnet]
+anzhay_flip = "6Fg5b38qMMwUarNA1bACM8rZnW8VsJwUz757moGaHGDC"
+
 [registry]
 url = "https://api.apr.dev"
 
